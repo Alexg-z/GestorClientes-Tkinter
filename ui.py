@@ -30,9 +30,9 @@ class CreateClientWindow(Toplevel, CenterWidgetMixin):
         frame = Frame(self)
         frame.pack(padx=20, pady=10)
 
-        Label(frame, text="DNI (2 ints y 1 upper char)").grid(row=0, column=0)
-        Label(frame, text="Nombre (de 2 a 30 chars)").grid(row=0, column=1)
-        Label(frame, text="Apellido (de 2 a 30 chars)").grid(row=0, column=2)
+        Label(frame, text="DNI (2 Numeros y 1 mayuscula)").grid(row=0, column=0)
+        Label(frame, text="Nombre (de 2 a 30 letras)").grid(row=0, column=1)
+        Label(frame, text="Apellido (de 2 a 30 letras)").grid(row=0, column=2)
 
         dni = Entry(frame)
         dni.grid(row=1, column=0)
@@ -73,7 +73,7 @@ class CreateClientWindow(Toplevel, CenterWidgetMixin):
         valor = event.widget.get()
         valido = helpers.dni_valido(valor, db.Clientes.lista) if index == 0 \
             else (valor.isalpha() and len(valor) >= 2 and len(valor) <= 30)
-        event.widget.configure({"bg": "Green" if valido else "Red"})
+        event.widget.configure({"bg": "Blue" if valido else "Orange"})
         # Cambiar el estado del botón en base a las validaciones
         self.validaciones[index] = valido
         self.crear.config(state=NORMAL if self.validaciones == [1, 1, 1] else DISABLED)
@@ -92,9 +92,9 @@ class EditClientWindow(Toplevel, CenterWidgetMixin):
         frame = Frame(self)
         frame.pack(padx=20, pady=10)
 
-        Label(frame, text="DNI (no editable)").grid(row=0, column=0)
-        Label(frame, text="Nombre (de 2 a 30 chars)").grid(row=0, column=1)
-        Label(frame, text="Apellido (de 2 a 30 chars)").grid(row=0, column=2)
+        Label(frame, text="DNI").grid(row=0, column=0)
+        Label(frame, text="Nombre (de 2 a 30 letras)").grid(row=0, column=1)
+        Label(frame, text="Apellido (de 2 a 30 letras)").grid(row=0, column=2)
 
         dni = Entry(frame)
         dni.grid(row=1, column=0)
@@ -139,7 +139,7 @@ class EditClientWindow(Toplevel, CenterWidgetMixin):
     def validate(self, event, index):
         valor = event.widget.get()
         valido = (valor.isalpha() and len(valor) >= 2 and len(valor) <= 30)
-        event.widget.configure({"bg": "Green" if valido else "Red"})
+        event.widget.configure({"bg": "Blue" if valido else "Orange"})
         # Cambiar el estado del botón en base a las validaciones
         self.validaciones[index] = valido
         self.actualizar.config(state=NORMAL if self.validaciones == [1, 1] else DISABLED)
@@ -193,7 +193,7 @@ class MainWindow(Tk, CenterWidgetMixin):
         if cliente:
             campos = self.treeview.item(cliente, "values")
             confirmar = askokcancel(
-                title="Confirmar borrado",
+                title="¿Seguro de esta acción?",
                 message=f"¿Borrar {campos[1]} {campos[2]}?",
                 icon=WARNING)
             if confirmar:
